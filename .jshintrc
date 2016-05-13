@@ -90,6 +90,7 @@
     "globals"       : {},       // additional predefined global variables
     "predef"        : [
         "require",
+        "module",
         "describe",
         "it",
         "assert",
