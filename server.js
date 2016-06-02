@@ -1,18 +1,21 @@
-(function () {
+(() => {
   'use strict';
 
-  var express = require('express');
-  var app = express();
-  var router = express.Router();
-  var bodyParser = require('body-parser');
-  var morgan = require('morgan');
-  var mongoose = require('mongoose');
+  require('dotenv').load();
 
-  mongoose.connect('mongodb://localhost/dms');
+  let express = require('express'),
+    app = express(),
+    router = express.Router(),
+    bodyParser = require('body-parser'),
+    morgan = require('morgan'),
+    mongoose = require('mongoose'),
+    jwtMiddleware = require('./server/middleware/jwt.js').optionalAuth;
 
-  var db = mongoose.connection;
+  mongoose.connect(process.env.DATABASE || 'mongodb://localhost/dms');
+
+  let db = mongoose.connection;
   db.on('error', console.error.bind(console, 'connection error:'));
-  db.once('open', function() {
+  db.once('open', () => {
     // we're connected!
   });
 
@@ -23,13 +26,24 @@
   // use morgan to log requests to the console
   app.use(morgan('dev'));
 
+  app.use(express.static('public'));
+ 
   // Require and load up all routes in the Routes.js file
   require('./server/routes/routes.js')(router);
+  // Make Router use JWT MiddleWare
+  router.use(jwtMiddleware);
+
   app.use('/api/v1', router);
 
-  app.use(express.static('public'));
-
-  app.listen(4000, function () {
-    console.log('Example app listening on port 4000!');
+  let server = app.listen(process.env.PORT || 4000, () => {
+    console.log('SERVER LISTENING ON PORT ' + process.env.PORT || 4000 + '!');
   });
+
+  module.exports = {
+    app,
+    server,
+    killServer: () => {
+      server.close();
+    }
+  };
 })();

@@ -1,21 +1,24 @@
 (function () {
   'use strict';
-  var api = require('superagent'),
+  
+  let api = require('superagent'),
+    faker = require('faker'),
     assert = require('chai').assert,
+    config = require('./../../server/config.js'),
     // expect = require('chai').expect,
-    apiUrl = 'http://localhost:3000/api/v1/users';
+    apiUrl = 'http://localhost:'+ config.serverPort +'/api/v1/users';
 
   describe('USERS API ENDPOINT:', function () {
-    var beforeAllTestResult,
+    let beforeAllTestResult,
       newUser = {
-        username: 'sheyooo',
+        username: faker.internet.userName(),
         name: {
-          first: 'Seyi',
-          last: 'Adekoya'
+          first: faker.name.firstName(),
+          last: faker.name.lastName()
         },
-        email: 'sheyi@gmail.com',
-        password: 'password',
-        role: 'let\'s see'
+        email: faker.internet.email(),
+        password: faker.internet.password(),
+        role: 'viewer'
       };
 
     before(function (done) {
@@ -39,14 +42,14 @@
     });
 
     it('POST: should only accept users with role defined', function (done) {
-      var userWithNoRole = {
-        username: 'sheyooo',
+      let userWithNoRole = {
+        username: faker.internet.userName(),
         name: {
-          first: 'Seyi',
-          last: 'Adekoya'
+          first: faker.name.firstName(),
+          last: faker.name.lastName()
         },
-        email: 'sheyi@gmail.com',
-        password: 'password'
+        email: faker.internet.email(),
+        password: faker.internet.password()
       };
 
       api
@@ -59,7 +62,7 @@
     });
 
     it('POST: should reject when no first or last name', function (done) {
-      var userWithNoRole = {
+      let userWithNoRole = {
         username: 'sheyooo',
         name: {
           first: '',

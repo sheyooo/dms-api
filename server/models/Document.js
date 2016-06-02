@@ -1,17 +1,28 @@
-(function () {
+(() => {
   'use strict';
-  var mongoose = require('mongoose');
+  
+  let mongoose = require('mongoose');
 
-  var DocumentSchema = mongoose.Schema({
-    ownerId: Number,
-    title: String,
+  let DocumentSchema = mongoose.Schema({
+    ownerId: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      ref: 'User'
+    },
+    title: {type: String, unique: true},
     content: String,
-    createdAt: {type: Date, default: Date.now},
-    updatedAt: {type: Date, default: Date.now}
-
+    roles: [{type: String}],
+    type: [{type: String}]
+  }, {
+    timestamps: true
   });
 
-  var Document = mongoose.model('Document', DocumentSchema);
+  DocumentSchema.pre('update', function() {
+    this.update({},{ $set: { updatedAt: new Date() } });
+  });
 
-  module.exports = Document;
+  module.exports = { 
+    model: mongoose.model('Document', DocumentSchema),
+    schema: DocumentSchema 
+  };
 })();

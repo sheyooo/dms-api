@@ -1,29 +1,21 @@
 (function () {
   'use strict';
 
+  let DocumentController = require('./../controllers/documents-controller.js'),
+    UserController = require('./../controllers/users-controller.js'),
+    jwtMiddleware = require('./../middleware/jwt.js').requireAuth;
+
   module.exports = function (router) {    
-    router.post('/documents', function(req, res, next) {
-      res.send('respond with a resource');
-    });
+    router.post('/documents', jwtMiddleware, DocumentController.create);
 
-    router.get('/documents', function(req, res, next) {
+    router.get('/documents', DocumentController.getAllDocs);
 
-    });
+    router.get('/documents/:id', DocumentController.getDoc);
 
-    router.get('/documents/:id', function() {
+    router.put('/documents/:id', jwtMiddleware, DocumentController.update);
 
-    });
+    router.delete('/documents/:id', jwtMiddleware, DocumentController.delete);
 
-    router.put('/documents/:id', function() {
-
-    });
-
-    router.delete('/documents/:id', function(req, res) {
-      res.send(req.params.id);
-    });
-
-    router.get('/users/:id/documents', function(req, res) {
-      
-    });
+    router.get('/users/:id/documents', UserController.getUserDocuments);
   }; 
 })();

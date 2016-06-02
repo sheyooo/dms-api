@@ -1,40 +1,52 @@
-(function () {
+(() => {
   'use strict';
-  var api = require('superagent'),
+  let api = require('superagent'),
+    faker = require('faker'),
     assert = require('chai').assert,
-    // expect = require('chai').expect,
-    apiUrl = 'http://localhost:3000/api/v1/roles';
+    config = require('./../../server/config.js'),
+    apiUrl = 'http://localhost:'+ config.serverPort +'/api/v1/roles';
 
-  describe('ROLES API ENDPOINT:', function () {
-    var beforeAllTestResult,
+  describe('ROLES API ENDPOINT:', () => {
+    let jwtToken,
+      newUser = {
+        username: faker.internet.userName(),
+        name: {
+          first: faker.name.firstName(),
+          last: faker.name.lastName()
+        },
+        email: faker.internet.email(),
+        password: faker.internet.password(),
+        role: 'viewer'
+      },
       newRole = {
-        title: 'viewer'
+        title: 'manager'
       };
 
-    before(function (done) {
+    before(done => {
       api
-        .post(apiUrl)
-        .send(newRole)
-        .end(function (err, res) {
-          beforeAllTestResult = res;
+        .post('http://localhost:'+ config.serverPort +'/api/v1/users')
+        .send(newUser)
+        .end((err, res) => {
+          jwtToken = res.body.token;
           done();
         });
     });
 
-    it('POST: should only accept unique roles', function (done) {
+    it('POST: should only accept unique roles', done => {
       api
         .post(apiUrl)
+        .set('X-ACCESS-TOKEN', jwtToken)
         .send(newRole)
-        .end(function (err, res) {
+        .end((err, res) => {
           assert.equal(res.status, 409);
           done();
         });
     });
 
-    it('GET: should return all roles', function (done) {
+    it('GET: should return all roles', done => {
       api
         .get(apiUrl)
-        .end(function (err, res) {
+        .end((err, res) => {
           assert.equal(res.status, 200);
           done();
         });
