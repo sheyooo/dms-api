@@ -1,12 +1,20 @@
-(function () {
+(() => {
   'use strict';
-  var mongoose = require('mongoose');
+  
+  let mongoose = require('mongoose'),
 
-  var RoleSchema = mongoose.Schema({
-    title: String
-  });
+    RoleSchema = mongoose.Schema({
+      title: {
+        type: String,
+        unique: true,
+        required: true,
+        lowercase: true,
+        trim: true
+      }
+    });
 
-  var Role = mongoose.model('Role', RoleSchema);
-
-  module.exports = Role;
+  module.exports = {
+    model: mongoose.model('Role', RoleSchema), 
+    schema: RoleSchema
+  };
 })();

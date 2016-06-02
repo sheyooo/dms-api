@@ -1,30 +1,20 @@
 (function () {
   'use strict';
 
-  var UserController = require('./../controllers/user-controller.js');
+  let UserController = require('./../controllers/users-controller.js');
 
   module.exports = function (router) {    
-    router.post('/users/login', function(req, res) {
-      
-    });
+    router.post('/users/login', UserController.login);
 
     router.post('/users/logout', function(req, res) {
-
+      res.json({status: 'Logged out!'});
     });
 
-    router.post('/users', function(req, res) {
-      UserController.createUser(req.body);
+    router.post('/users', UserController.createUser);
 
-      res.json(req.body);
-    });
+    router.get('/users', UserController.getAllUsers);
 
-    router.get('/users', function() {
-
-    });
-
-    router.get('/users/:id', function(req, res) {
-      res.send(req.params.id);
-    });
+    router.get('/users/:id', UserController.getUser);
 
     router.put('/users/:id', function() {
 
