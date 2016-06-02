@@ -24,7 +24,7 @@
       }
 
       if (req.role) {
-        model = model.$where('this.roles.indexOf("' + req.role + '") > -1');
+        model = model.where('role', req.role);
       }
 
       return model;

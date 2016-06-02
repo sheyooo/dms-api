@@ -8,7 +8,7 @@
     config = require('./../../server/config.js'),
     apiUrl = 'http://localhost:'+ config.serverPort +'/api/v1/documents';
 
-  describe('DOCUMENTS API ENDPOINT:', function () {
+  describe('DOCUMENTS SEARCH API ENDPOINT:', function () {
     let jwtToken;
 
     before(done => {
@@ -73,19 +73,19 @@
       let docs = [{
         title: faker.lorem.sentence(),
         content: 'Some content',
-        roles: ['viewer']
+        role: 'viewer'
       }, {
         title: faker.lorem.sentence(),
-        content: 'Another content'
+        content: 'Another content',
+        role: 'admin'
       }];
 
       api
         .post(apiUrl)
         .set('X-ACCESS-TOKEN', jwtToken)
         .send(docs[0])
-        //.send(docs[1])
+        .send(docs[1])
         .end((err, res) => {
-          console.log(res.body.error);
           assert.equal(res.status, 201);
         });
 
@@ -111,7 +111,7 @@
             .send({
               title: faker.lorem.sentence(),
               content: 'Some content',
-              roles: ['viewer', 'admin']
+              role: 'viewer'
             })
             .end((err, res) => {
               assert.equal(res.status, 201);
@@ -120,8 +120,7 @@
                 .get(apiUrl + '?role=viewer')
                 .end((err, res) => {
                   res.body.data.forEach((doc) => {
-                    let index = doc.roles.indexOf('viewer');
-                    assert(index > -1, 'found the role');
+                    assert(doc.role === 'viewer', 'found the role');
                   });
                   done();
                 });

@@ -19,7 +19,7 @@
         role: 'viewer'
       },
       newRole = {
-        title: 'manager'
+        title: faker.lorem.word()
       };
 
     before(done => {
@@ -32,11 +32,22 @@
         });
     });
 
-    it('POST: should only accept unique roles', done => {
+    it('POST: should create new Role', done => {
       api
         .post(apiUrl)
         .set('X-ACCESS-TOKEN', jwtToken)
         .send(newRole)
+        .end((err, res) => {
+          assert.equal(res.status, 200);
+          done();
+        });
+    });
+
+    it('POST: should only accept unique roles', done => {
+      api
+        .post(apiUrl)
+        .set('X-ACCESS-TOKEN', jwtToken)
+        .send({ title: 'admin' })
         .end((err, res) => {
           assert.equal(res.status, 409);
           done();
