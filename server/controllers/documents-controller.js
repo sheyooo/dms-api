@@ -8,27 +8,22 @@
   module.exports = {
     create: function(req, res) {
       let newDoc = req.body,
-        roles = newDoc.roles && newDoc.roles.length ? newDoc.roles : ['viewer'];
+        role = newDoc.role || 'viewer';
 
       newDoc.ownerId = req.decodedJWT.sub;
-
-      newDoc.roles = [];
-
       
-
+      Role.findOne({title: role}, (err, foundRole) => {
+        if (foundRole) {
+          newDoc.role = foundRole.title;
+        }
+      });
+      
       Document.create(newDoc, (err, doc) => {
         if (err) {
           res
             .status(400)
             .json({status: 'Could not create document', error: err});
         } else {
-          roles.forEach((role) => {
-            Role.findOne({title: role}, (err, foundRole) => {
-              //newDoc.roles.push(foundRole.title);
-              doc.roles[doc.roles.length] = foundRole.title;
-              doc.save();
-            });
-          });
           res
             .status(201)
             .json(doc);

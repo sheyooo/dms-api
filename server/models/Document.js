@@ -11,8 +11,8 @@
     },
     title: {type: String, unique: true},
     content: String,
-    roles: [{type: String}],
-    type: [{type: String}]
+    role: {type: String},
+    type: {type: String}
   }, {
     timestamps: true
   });
