@@ -1,12 +1,12 @@
-(function () {
+(() => {
   'use strict';
 
   let UserController = require('./../controllers/users-controller.js');
 
-  module.exports = function (router) {    
+  module.exports = router => {    
     router.post('/users/login', UserController.login);
 
-    router.post('/users/logout', function(req, res) {
+    router.post('/users/logout', (req, res) => {
       res.json({status: 'Logged out!'});
     });
 
@@ -16,11 +16,9 @@
 
     router.get('/users/:id', UserController.getUser);
 
-    router.put('/users/:id', function() {
+    router.put('/users/:id', UserController.updateUser);
 
-    });
-
-    router.delete('/users/:id', function() {
+    router.delete('/users/:id', () => {
 
     });
   }; 

@@ -1,13 +1,13 @@
-(function () {
+(() => {
   'use strict';
 
   let Type = require('./../models/Type.js').model;
 
   module.exports = {
-    create: function(data, callback) {
+    create: (data, callback) => {
       let role = new Type(data);
 
-      role.save(function(err) {
+      role.save(err => {
         if (err) {
           callback(false);
         } else {
@@ -16,9 +16,9 @@
       });
     },
 
-    getAll: function(callback) {
+    getAll: callback => {
       Type.find()
-        .exec(function(types) {
+        .exec(types => {
           callback(types);
         });
     }

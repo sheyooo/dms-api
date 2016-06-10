@@ -10,7 +10,7 @@
         last: {type: String, required: true}
       },
       email: {type: String, unique: true, required: true},
-      role: {type: mongoose.Schema.Types.ObjectId, required: true, ref: 'Role'},
+      role: {type: String, required: true},
       password: {type: String, required: true}
     }, {
       timestamps: true

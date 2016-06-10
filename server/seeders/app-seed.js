@@ -18,7 +18,7 @@
         username: 'sheyooo',
         name: { first: 'Seyi', last: 'Adekoya'},
         email: 'sheyiadekoya@gmail.com',
-        role: roles[1]._id,
+        role: roles[1].title,
         password: 'password'
       }, (err, user) => {
         if (user) {

@@ -1,4 +1,4 @@
-(function () {
+(() => {
   'use strict';
 
   let Document = require('./../models/Document.js').model,
@@ -6,51 +6,56 @@
     Utilities = require('./../controllers/utilities.js');
 
   module.exports = {
-    create: function(req, res) {
-      let newDoc = req.body,
-        role = newDoc.role || 'viewer';
+    create: (req, res) => {
+      let newDoc = req.body;
 
       newDoc.ownerId = req.decodedJWT.sub;
       
-      Role.findOne({title: role}, (err, foundRole) => {
-        if (foundRole) {
-          newDoc.role = foundRole.title;
+      Role.findOne({title: newDoc.role}, (err, foundRole) => {
+        if (!foundRole) {
+          newDoc.role = 'viewer';
         }
-      });
-      
-      Document.create(newDoc, (err, doc) => {
-        if (err) {
-          res
-            .status(400)
-            .json({status: 'Could not create document', error: err});
-        } else {
-          res
-            .status(201)
-            .json(doc);
-        }
+
+        Document.create(newDoc, (err, doc) => {
+          if (err) {
+            res
+              .status(400)
+              .json({status: 'Could not create document', error: err});
+          } else {
+            res
+              .status(201)
+              .json(doc);
+          }
+        });
+
       });
     },
 
-    getDoc: function(req, res) {
+    getDoc: (req, res) => {
       let id = req.params.id;
 
-      Document.findById(id, function (err, doc) {
+      Document.findById(id, (err, doc) => {
         if (err) {
           res
             .status(404)
             .json({status: 'Document not found'});
         } else {
-          res.json(doc);
+          if (Utilities.checkDocAccessRight(req.jwtUser, doc)) {
+            res.json(doc);
+          } else {
+            res
+              .status(401)
+              .json({status: 'You cant touch that'});
+          }
         }
       });
     },
 
-    getAllDocs: function(req, res) {
-      let params = req.query;
+    getAllDocs: (req, res) => {
+      let params = req.query,
+        paginatedDocs = Utilities.paginate(params, Document.find());
 
-      let paginatedDocs = Utilities.paginate(params, Document.find());
-
-      paginatedDocs.exec(function(err, docs) {
+      paginatedDocs.exec((err, docs) => {
         if (err) {
           res
             .status(400)
@@ -63,12 +68,12 @@
       });
     },
 
-    update: function(req, res) {
+    update: (req, res) => {
       let docID = req.params.id,
         newDoc = req.body,
         userID = req.decodedJWT.sub;
 
-      Document.findById(docID, function(err, foundDoc) {
+      Document.findById(docID, (err, foundDoc) => {
         if (!foundDoc) {
           res
             .status(404)
@@ -77,7 +82,7 @@
         }
 
         if (foundDoc.ownerId.toString() === userID) {
-          foundDoc.update(newDoc, function(err) {
+          foundDoc.update(newDoc, err => {
             if (err) {
               res
                 .status(400)
@@ -95,11 +100,11 @@
       });
     },
 
-    delete: function(req, res) {
+    delete: (req, res) => {
       let id = req.params.id,
         userID = req.decodedJWT.sub;
 
-      Document.findById(id, function(err, doc) {
+      Document.findById(id, (err, doc) => {
         if (err) {
           res
             .status(400)

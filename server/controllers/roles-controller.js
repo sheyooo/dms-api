@@ -1,14 +1,14 @@
-(function () {
+(() => {
   'use strict';
 
   let Role = require('./../models/Role.js').model;
 
   module.exports = {
-    create: function(req, res) {
+    create: (req, res) => {
       let newRole = req.body,
         role = new Role(newRole);
 
-      role.save(function(err) {
+      role.save(err => {
         if (err) {
           res
             .status(409)
@@ -19,9 +19,9 @@
       });
     },
 
-    getAll: function(req, res) {
+    getAll: (req, res) => {
       Role.find()
-        .exec(function(err, roles) {
+        .exec((err, roles) => {
           res.json(roles);
         });
     }

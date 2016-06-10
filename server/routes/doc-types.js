@@ -1,11 +1,11 @@
-(function () {
+(() => {
   'use strict';
 
   let DocTypesController = require('./../controllers/doc-types-controller.js');
 
-  module.exports = function (router) {    
-    router.post('/doc-types', function(req, res) {
-      DocTypesController.create(req.body, function(response) {
+  module.exports = router => {    
+    router.post('/doc-types', (req, res) => {
+      DocTypesController.create(req.body, (response) => {
         if (response) {
           res.json(response);
         } else {
@@ -16,8 +16,8 @@
       });
     });
 
-    router.get('/doc-types', function(req, res) {
-      DocTypesController.getAll(function (docTypes) {
+    router.get('/doc-types', (req, res) => {
+      DocTypesController.getAll(docTypes => {
         res.json(docTypes);
       });
     });
