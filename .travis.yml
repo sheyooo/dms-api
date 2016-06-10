@@ -5,6 +5,11 @@ services:
   - mongodb
 before_script:
   - npm run db:seed
+script:
+  - npm test
+after_script:
+  - npm install codeclimate-test-reporter -g
+  - npm run coverage
 after_success:
   - npm install codeclimate-test-reporter -g
   - npm run coverage
