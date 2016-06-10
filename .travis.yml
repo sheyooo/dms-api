@@ -6,6 +6,7 @@ services:
 before_script:
   - npm run db:seed
 after_success:
+  - npm install codeclimate-test-reporter -g
   - npm run coverage
 addons:
     code_climate:
