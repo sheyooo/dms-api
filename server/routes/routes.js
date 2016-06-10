@@ -1,7 +1,8 @@
-(function () {
+(() => {
   'use strict';
-    // All API routes
-  module.exports = function (app) {    
+  
+  // Load Up all API routes
+  module.exports = app => {    
     require('./users.js')(app);
     require('./documents.js')(app);
     require('./roles.js')(app);

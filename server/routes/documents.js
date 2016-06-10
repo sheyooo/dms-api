@@ -1,11 +1,11 @@
-(function () {
+(() => {
   'use strict';
 
   let DocumentController = require('./../controllers/documents-controller.js'),
     UserController = require('./../controllers/users-controller.js'),
     jwtMiddleware = require('./../middleware/jwt.js').requireAuth;
 
-  module.exports = function (router) {    
+  module.exports = router => {    
     router.post('/documents', jwtMiddleware, DocumentController.create);
 
     router.get('/documents', DocumentController.getAllDocs);

@@ -1,38 +1,45 @@
-(function () {
+(() => {
   'use strict';
 
   let jwt = require('jsonwebtoken'),
+    User = require('./../models/User.js').model,
     config = require('./../config.js');
 
   module.exports = {
-    requireAuth: function(req, res, next) {
+    requireAuth: (req, res, next) => {
       let token = req.query.token || req.get('X-ACCESS-TOKEN');
 
-      jwt.verify(token, config.jwtKey, function(err, decoded) {
+      jwt.verify(token, config.jwtKey, (err, decoded) => {
         if (err) {
           res
             .status(401)
             .json({status: 'Unauthorized'});
         } else {
           req.decodedJWT = decoded;
-          next();
+          User.findById(decoded.sub, (err, user) => {
+            req.jwtUser = user;
+            next();
+          });
         }
       });
     },
 
-    optionalAuth: function(req, res, next) {
+    optionalAuth: (req, res, next) => {
       let token = req.query.token || req.get('X-ACCESS-TOKEN');
 
-      jwt.verify(token, config.jwtKey, function(err, decoded) {
+      jwt.verify(token, config.jwtKey, (err, decoded) => {
         if (decoded) {
-          req.decodedJWT = decoded;          
-        } else {
-          req.decodedJWT = false;          
-        }
 
-        next();
+          req.decodedJWT = decoded;   
+          User.findById(decoded.sub, (err, user) => {
+            req.jwtUser = user;
+            next();
+          });       
+        } else {
+          req.decodedJWT = false;  
+          next();        
+        }
       });
     }
-
   };
 })();
