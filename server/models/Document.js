@@ -1,7 +1,7 @@
 (() => {
   'use strict';
   
-  let mongoose = require('mongoose'),
+  var mongoose = require('mongoose'),
     DocumentSchema = mongoose.Schema({
       ownerId: {
         type: mongoose.Schema.Types.ObjectId,

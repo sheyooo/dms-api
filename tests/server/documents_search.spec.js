@@ -1,7 +1,7 @@
 (() => {
   'use strict';
 
-  let server = require('./../../server.js').app,
+  var server = require('./../../server.js').app,
     api = require('supertest')(server),
     faker = require('faker'),
     assert = require('chai').assert,
@@ -10,11 +10,11 @@
     apiUrl = '/api/v1/documents';
 
   describe('DOCUMENTS SEARCH API ENDPOINT:', () => {
-    let jwtToken,
+    var jwtToken,
       userID;
 
     before(done => {
-      let newUser = {
+      var newUser = {
         username: faker.internet.userName(),
         name: {
           first: faker.name.firstName(),
@@ -36,7 +36,7 @@
     });
 
     it('GET: should return documents with paginated limits', done => {
-      let count = 10;
+      var count = 10;
       api
         .get(apiUrl + '?limit=' + count)
         .end((err, res) => {
@@ -47,14 +47,14 @@
         });
     });
 
-    let description1 = 'GET: should return documents in ' +
+    var description1 = 'GET: should return documents in ' +
       'descending order of published date';
     it(description1, done => {
       api
         .get(apiUrl)
         .end((err, res) => {
 
-          let documents = res.body.data,
+          var documents = res.body.data,
             sortedDocuments = _.sortBy(res.body.data, doc => doc.createdAt);
 
           assert.equal(res.status, 200);
@@ -70,10 +70,10 @@
         });
     });
 
-    let description2 = 'GET: should return documents that can be ' +
+    var description2 = 'GET: should return documents that can be ' +
       'accessed by a specified role';
     it(description2, done => {
-      let docs = [{
+      var docs = [{
         title: faker.lorem.sentence(),
         content: 'Some content',
         role: 'viewer'
@@ -132,10 +132,10 @@
         });
     });
 
-    let description3 = 'GET: should return documents that can be ' +
+    var description3 = 'GET: should return documents that can be ' +
       'accessed by a specified TYPE';
     it(description3, done => {
-      let docs = [{
+      var docs = [{
         title: faker.lorem.sentence(),
         content: 'Some content',
         role: 'viewer',
@@ -198,10 +198,10 @@
         });
     });
 
-    let description4 = 'GET: should return documents created ' +
+    var description4 = 'GET: should return documents created ' +
       'or published on a particular date';
     it(description4, done => {
-      let documents = [{
+      var documents = [{
         title: faker.lorem.sentence(),
         content: 'Wizzy in London'
       }, {
@@ -216,7 +216,7 @@
         .end((err, res) => {
           assert.equal(res.status, 201);
 
-          let today = moment().format('YYYY-MM-DD');
+          var today = moment().format('YYYY-MM-DD');
           api
             .get(apiUrl + '?date=' + today)
             .end((err, res) => {
@@ -225,7 +225,7 @@
                 assert.equal(moment(doc.createdAt).format('YYYY-MM-DD'), today);
               });
 
-              let tommorow = moment().add(1, 'day').format('YYYY-MM-DD');
+              var tommorow = moment().add(1, 'day').format('YYYY-MM-DD');
               api
                 .get(apiUrl + '?date=' + tommorow)
                 .end((err, res) => {

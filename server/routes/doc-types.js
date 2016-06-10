@@ -1,7 +1,7 @@
 (() => {
   'use strict';
 
-  let DocTypesController = require('./../controllers/doc-types-controller.js');
+  var DocTypesController = require('./../controllers/doc-types-controller.js');
 
   module.exports = router => {    
     router.post('/doc-types', (req, res) => {

@@ -1,14 +1,14 @@
 (() => {
   'use strict';
 
-  let server = require('./../../server.js').app,
+  var server = require('./../../server.js').app,
     api = require('supertest')(server),
     faker = require('faker'),
     assert = require('chai').assert,
     apiUrl = '/api/v1/roles';
 
   describe('ROLES API ENDPOINT:', () => {
-    let jwtToken,
+    var jwtToken,
       newUser = {
         username: faker.internet.userName(),
         name: {

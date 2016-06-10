@@ -1,7 +1,7 @@
 (() => {
   'use strict';
 
-  let DocumentController = require('./../controllers/documents-controller.js'),
+  var DocumentController = require('./../controllers/documents-controller.js'),
     UserController = require('./../controllers/users-controller.js'),
     jwtMiddleware = require('./../middleware/jwt.js').requireAuth;
 
@@ -14,7 +14,7 @@
 
     router.put('/documents/:id', jwtMiddleware, DocumentController.update);
 
-    router.delete('/documents/:id', jwtMiddleware, DocumentController.delete);
+    router.delete('/documents/:id', jwtMiddleware, DocumentController.devare);
 
     router.get('/users/:id/documents', UserController.getUserDocuments);
   }; 

@@ -1,6 +1,6 @@
 (() => {
   'use strict';
-  let mongoose = require('mongoose'),
+  var mongoose = require('mongoose'),
     bcrypt = require('bcrypt-nodejs'),
 
     UserSchema = mongoose.Schema({
@@ -21,7 +21,7 @@
     next();
   });
 
-  let User = mongoose.model('User', UserSchema);
+  var User = mongoose.model('User', UserSchema);
 
   module.exports = { model: User, schema: UserSchema };
 })();

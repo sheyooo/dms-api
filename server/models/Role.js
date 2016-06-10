@@ -1,7 +1,7 @@
 (() => {
   'use strict';
   
-  let mongoose = require('mongoose'),
+  var mongoose = require('mongoose'),
 
     RoleSchema = mongoose.Schema({
       title: {

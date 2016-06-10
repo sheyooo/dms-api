@@ -3,7 +3,7 @@
 
   require('dotenv').load();
 
-  let express = require('express'),
+  var express = require('express'),
     app = express(),
     router = express.Router(),
     bodyParser = require('body-parser'),
@@ -13,7 +13,7 @@
 
   mongoose.connect(process.env.DATABASE || 'mongodb://localhost/dms');
 
-  let db = mongoose.connection;
+  var db = mongoose.connection;
   db.on('error', console.error.bind(console, 'connection error:'));
   db.once('open', () => {
     // we're connected!
@@ -35,7 +35,7 @@
 
   app.use('/api/v1', router);
 
-  let server = app.listen(process.env.PORT || 4000, () => {
+  var server = app.listen(process.env.PORT || 4000, () => {
     console.log('SERVER LISTENING ON PORT ' + process.env.PORT || 4000 + '!');
   });
 

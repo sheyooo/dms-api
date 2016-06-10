@@ -1,14 +1,14 @@
 (() => {
   'use strict';
 
-  let server = require('./../../server.js').app,
+  var server = require('./../../server.js').app,
     api = require('supertest')(server),
     faker = require('faker'),
     assert = require('chai').assert,
     apiUrl = '/api/v1/users';
 
   describe('USERS API ENDPOINT:', () => {
-    let defaultUser,
+    var defaultUser,
       newUser = {
         username: faker.internet.userName(),
         name: {
@@ -51,7 +51,7 @@
     });
 
     it('POST: should only accept users with role defined', done => {
-      let userWithNoRole = {
+      var userWithNoRole = {
         username: faker.internet.userName(),
         name: {
           first: faker.name.firstName(),
@@ -71,7 +71,7 @@
     });
 
     it('POST: should reject when no first or last name', done => {
-      let userWithNoRole = {
+      var userWithNoRole = {
         username: 'sheyooo',
         name: {
           first: '',
@@ -91,7 +91,7 @@
     });
 
     it('PUT: should be able to edit a user', done => {
-      let fName = faker.name.firstName(),
+      var fName = faker.name.firstName(),
         lName = faker.name.lastName();
 
       api

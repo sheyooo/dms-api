@@ -1,11 +1,11 @@
 (() => {
   'use strict';
 
-  let Type = require('./../models/Type.js').model;
+  var Type = require('./../models/Type.js').model;
 
   module.exports = {
     create: (data, callback) => {
-      let role = new Type(data);
+      var role = new Type(data);
 
       role.save(err => {
         if (err) {

@@ -1,6 +1,6 @@
 (() => {
   'use strict';
-  let server = require('./../../server.js').app,
+  var server = require('./../../server.js').app,
     api = require('supertest')(server),
     faker = require('faker'),
     assert = require('chai').assert,
@@ -8,7 +8,7 @@
     apiUrl = '/api/v1/documents';
 
   describe('DOCUMENTS API ENDPOINT:', () => {
-    let jwtToken,
+    var jwtToken,
       userID,
       docID,
       fakeUser = {
@@ -38,7 +38,7 @@
         });
     });
 
-    let description = 'POST: should return documents with ' + 
+    var description = 'POST: should return documents with ' + 
       'defined published dates';
     it(description, done => {
       assert.isOk(jwtToken);
@@ -65,7 +65,7 @@
     });
 
     it('GET: should return documents with paginated limits', done => {
-      let count = 10;
+      var count = 10;
       api
         .get(apiUrl + '?limit=' + count)
         .end((err, res) => {
@@ -77,7 +77,7 @@
     });
 
     it('GET: should return documents within paginated limits', done => {
-      let count = 10,
+      var count = 10,
         offset = 10;
 
       api
@@ -90,19 +90,19 @@
         });
     });
 
-    let description1 = 'GET: should return documents in ' +
+    var description1 = 'GET: should return documents in ' +
       'descending order of published date';
     it(description1, done => {
       api
         .get(apiUrl)
         .end((err, res) => {
-          let documents = res.body.data,
+          var documents = res.body.data,
             prevSortedDate = documents[0].createdAt,
             sorted  = true;
 
           assert.equal(res.status, 200);
 
-          for (let i in documents) {
+          for (var i in documents) {
             if (i.createdAt < prevSortedDate) {
               sorted = false;
             }
@@ -113,7 +113,7 @@
     });
 
     it('PUT: should be able to edit a document', done => {
-      let newContent = faker.lorem.sentence();
+      var newContent = faker.lorem.sentence();
 
       api
         .put(apiUrl + '/' + docID)
@@ -131,7 +131,7 @@
         });
     });
 
-    let description2 = 'GET: should return documents created ' +
+    var description2 = 'GET: should return documents created ' +
       'by a particular user';
     it(description2, done => {
 
@@ -151,7 +151,7 @@
         });
     });
 
-    let description3 = 'GET: should not return documents with higher ' +
+    var description3 = 'GET: should not return documents with higher ' +
       'role access';
     it(description3, done => {
       newDocument.title = faker.lorem.sentence();
@@ -162,7 +162,7 @@
         .set('X-ACCESS-TOKEN', jwtToken)
         .send(newDocument)
         .end((err, res) => {
-          let viewerDocId = res.body._id;
+          var viewerDocId = res.body._id;
           assert.equal(res.status, 201);
 
           // It should return 404

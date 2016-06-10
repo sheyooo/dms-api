@@ -1,11 +1,11 @@
 (() => {
   'use strict';
 
-  let Role = require('./../models/Role.js').model;
+  var Role = require('./../models/Role.js').model;
 
   module.exports = {
     create: (req, res) => {
-      let newRole = req.body,
+      var newRole = req.body,
         role = new Role(newRole);
 
       role.save(err => {

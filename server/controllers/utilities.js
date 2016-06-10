@@ -1,7 +1,7 @@
 (() => {
   'use strict';
 
-  let moment = require('moment'),
+  var moment = require('moment'),
     jwt = require('jsonwebtoken'),
     config = require('./../config.js');
 
@@ -33,7 +33,7 @@
       }
 
       if (params.date) {
-        let date = moment(params.date).toISOString(),
+        var date = moment(params.date).toISOString(),
           nextDay = moment(params.date).add(1, 'd').toISOString();
 
         model = model.find({createdAt: {$gt: date, $lt: nextDay} });
@@ -56,7 +56,7 @@
     },
 
     mergeObjects: (obj1, obj2) => {
-      for (let i in obj2) {
+      for (var i in obj2) {
         if (obj2.hasOwnProperty(i)) {
           obj1[i] = obj2[i];
         }
