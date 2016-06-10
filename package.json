@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "./node_modules/.bin/istanbul cover _mocha tests/server",
-    "coverage": "cat ./coverage/lcov.info | ./node_modules/.bin/coveralls",
+    "coverage": "codeclimate-test-reporter < coverage/lcov.info",
     "db:seed": "node ./server/seeders/app-seed.js"
   },
   "author": "",
