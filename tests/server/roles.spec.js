@@ -1,10 +1,11 @@
 (() => {
   'use strict';
-  let api = require('superagent'),
+
+  let server = require('./../../server.js').app,
+    api = require('supertest')(server),
     faker = require('faker'),
     assert = require('chai').assert,
-    config = require('./../../server/config.js'),
-    apiUrl = 'http://localhost:'+ config.serverPort +'/api/v1/roles';
+    apiUrl = '/api/v1/roles';
 
   describe('ROLES API ENDPOINT:', () => {
     let jwtToken,
@@ -24,7 +25,7 @@
 
     before(done => {
       api
-        .post('http://localhost:'+ config.serverPort +'/api/v1/users')
+        .post('/api/v1/users')
         .send(newUser)
         .end((err, res) => {
           jwtToken = res.body.token;

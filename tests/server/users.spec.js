@@ -1,15 +1,14 @@
-(function () {
+(() => {
   'use strict';
-  
-  let api = require('superagent'),
+
+  let server = require('./../../server.js').app,
+    api = require('supertest')(server),
     faker = require('faker'),
     assert = require('chai').assert,
-    config = require('./../../server/config.js'),
-    // expect = require('chai').expect,
-    apiUrl = 'http://localhost:'+ config.serverPort +'/api/v1/users';
+    apiUrl = '/api/v1/users';
 
-  describe('USERS API ENDPOINT:', function () {
-    let beforeAllTestResult,
+  describe('USERS API ENDPOINT:', () => {
+    let defaultUser,
       newUser = {
         username: faker.internet.userName(),
         name: {
@@ -21,27 +20,37 @@
         role: 'viewer'
       };
 
-    before(function (done) {
+    before(done => {
       api
         .post(apiUrl)
         .send(newUser)
-        .end(function (err, res) {
-          beforeAllTestResult = res;
+        .end((err, res) => {
+          defaultUser = res.body.user;
+          
           done();
         });
     });
 
-    it('POST: should only accept unique emails', function (done) {
+    it('GET: should return a user by ID', done => {
+      api
+        .get(apiUrl + '/' + defaultUser._id)
+        .end((err, res) => {
+          assert(res.body._id === defaultUser._id);
+          done();
+        });
+    });
+
+    it('POST: should only accept unique emails', done => {
       api
         .post(apiUrl)
         .send(newUser)
-        .end(function (err, res) {
+        .end((err, res) => {
           assert.equal(res.status, 409);
           done();
         });
     });
 
-    it('POST: should only accept users with role defined', function (done) {
+    it('POST: should only accept users with role defined', done => {
       let userWithNoRole = {
         username: faker.internet.userName(),
         name: {
@@ -55,13 +64,13 @@
       api
         .post(apiUrl)
         .send(userWithNoRole)
-        .end(function (err, res) {
+        .end((err, res) => {
           assert.equal(res.status, 400);
           done();
         });
     });
 
-    it('POST: should reject when no first or last name', function (done) {
+    it('POST: should reject when no first or last name', done => {
       let userWithNoRole = {
         username: 'sheyooo',
         name: {
@@ -75,16 +84,35 @@
       api
         .post(apiUrl)
         .send(userWithNoRole)
-        .end(function (err, res) {
+        .end((err, res) => {
           assert.equal(res.status, 400);
           done();
         });
     });
 
-    it('GET: should return all users', function (done) {
+    it('PUT: should be able to edit a user', done => {
+      let fName = faker.name.firstName(),
+        lName = faker.name.lastName();
+
+      api
+        .put(apiUrl + '/' +defaultUser._id)
+        .send({name: {first: fName, last: lName}})
+        .end((err, res) => {
+
+          api
+            .get(apiUrl + '/' +defaultUser._id)
+            .end((err, res) => {
+              assert(res.body.name.first === fName);
+              assert(res.body.name.last === lName);
+            });
+          done();
+        });
+    });
+
+    it('GET: should return all users', done => {
       api
         .get(apiUrl)
-        .end(function (err, res) {
+        .end((err, res) => {
           assert.equal(res.status, 200);
           done();
         });
