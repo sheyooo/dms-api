@@ -31,7 +31,7 @@
   // Require and load up all routes in the Routes.js file
   require('./server/routes/routes.js')(router);
   // Make Router use JWT MiddleWare
-  router.use(jwtMiddleware);
+  app.use(jwtMiddleware);
 
   app.use('/api/v1', router);
 
