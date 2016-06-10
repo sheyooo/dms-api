@@ -1,7 +1,7 @@
 (() => {
   'use strict';
 
-  let mongoose = require('mongoose'),
+  var mongoose = require('mongoose'),
     Role = require('./../models/Role.js').model,
     User = require('./../models/User.js').model;
 

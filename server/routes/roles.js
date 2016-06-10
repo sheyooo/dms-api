@@ -1,7 +1,7 @@
 (() => {
   'use strict';
 
-  let RolesController = require('./../controllers/roles-controller.js'),
+  var RolesController = require('./../controllers/roles-controller.js'),
     jwtMiddleware = require('./../middleware/jwt').requireAuth;
 
   module.exports = router => {    

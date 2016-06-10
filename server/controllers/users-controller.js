@@ -1,7 +1,7 @@
 (() => {
   'use strict';
 
-  let User = require('./../models/User.js').model,
+  var User = require('./../models/User.js').model,
     Document = require('./../models/Document.js').model,
     Role = require('./../models/Role.js').model,
     bcrypt = require('bcrypt-nodejs'),
@@ -9,8 +9,8 @@
 
   module.exports = {
     createUser: (req, res) => {
-      let newUser = req.body;
-      let userRole = newUser.role;
+      var newUser = req.body;
+      var userRole = newUser.role;
       newUser.role = '';
 
       Role.findOne({title: userRole}, (err, role) => {
@@ -42,7 +42,7 @@
     },
 
     login: (req, res) => {
-      let loginDetails = {
+      var loginDetails = {
         username: req.body.username,
         password: req.body.password
       };
@@ -58,7 +58,7 @@
     },
 
     getUser: (req, res) => {
-      let id = req.params.id;
+      var id = req.params.id;
 
       User.findById(id, (err, user) => {
         if (err) {
@@ -72,7 +72,7 @@
     },
 
     getAllUsers: (req, res) => {
-      let params = req.query,
+      var params = req.query,
         paginatedUsers = util.paginate(params, User.find());
 
       paginatedUsers
@@ -86,7 +86,7 @@
     },
 
     updateUser: (req, res) => {
-      let id = req.params.id;
+      var id = req.params.id;
 
       User.findById(id, (err, user) => {
         if (!user) {
@@ -108,7 +108,7 @@
     },
 
     getUserDocuments: (req, res) => {
-      let id = req.params.id;
+      var id = req.params.id;
 
       User.findById(id, (err, user) => {
         if (user) {

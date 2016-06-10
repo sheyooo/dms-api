@@ -1,6 +1,6 @@
 (function () {
   'use strict';
-  let mongoose = require('mongoose'),
+  var mongoose = require('mongoose'),
 
     TypeSchema = mongoose.Schema({
       title: {type: String, unique: true, required: true}

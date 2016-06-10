@@ -1,13 +1,13 @@
 (() => {
   'use strict';
 
-  let Document = require('./../models/Document.js').model,
+  var Document = require('./../models/Document.js').model,
     Role = require('./../models/Role.js').model,
     Utilities = require('./../controllers/utilities.js');
 
   module.exports = {
     create: (req, res) => {
-      let newDoc = req.body;
+      var newDoc = req.body;
 
       newDoc.ownerId = req.decodedJWT.sub;
       
@@ -32,7 +32,7 @@
     },
 
     getDoc: (req, res) => {
-      let id = req.params.id;
+      var id = req.params.id;
 
       Document.findById(id, (err, doc) => {
         if (err) {
@@ -52,7 +52,7 @@
     },
 
     getAllDocs: (req, res) => {
-      let params = req.query,
+      var params = req.query,
         paginatedDocs = Utilities.paginate(params, Document.find());
 
       paginatedDocs.exec((err, docs) => {
@@ -69,7 +69,7 @@
     },
 
     update: (req, res) => {
-      let docID = req.params.id,
+      var docID = req.params.id,
         newDoc = req.body,
         userID = req.decodedJWT.sub;
 
@@ -88,7 +88,7 @@
                 .status(400)
                 .json({status: 'Error editing document'});
             } else {
-              let finalDoc = Utilities.mergeObjects(foundDoc, newDoc);
+              var finalDoc = Utilities.mergeObjects(foundDoc, newDoc);
               res.json(finalDoc);
             }
           });
@@ -100,8 +100,8 @@
       });
     },
 
-    delete: (req, res) => {
-      let id = req.params.id,
+    devare: (req, res) => {
+      var id = req.params.id,
         userID = req.decodedJWT.sub;
 
       Document.findById(id, (err, doc) => {
@@ -112,7 +112,7 @@
         } else{
           if (doc.ownerId === userID) {
             doc.remove();
-            res.json({status: 'Successfuly deleted'});
+            res.json({status: 'Successfuly devared'});
           } else {
             res
               .status(401)

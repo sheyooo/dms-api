@@ -1,13 +1,13 @@
 (() => {
   'use strict';
 
-  let jwt = require('jsonwebtoken'),
+  var jwt = require('jsonwebtoken'),
     User = require('./../models/User.js').model,
     config = require('./../config.js');
 
   module.exports = {
     requireAuth: (req, res, next) => {
-      let token = req.query.token || req.get('X-ACCESS-TOKEN');
+      var token = req.query.token || req.get('X-ACCESS-TOKEN');
 
       jwt.verify(token, config.jwtKey, (err, decoded) => {
         if (err) {
@@ -25,7 +25,7 @@
     },
 
     optionalAuth: (req, res, next) => {
-      let token = req.query.token || req.get('X-ACCESS-TOKEN');
+      var token = req.query.token || req.get('X-ACCESS-TOKEN');
 
       jwt.verify(token, config.jwtKey, (err, decoded) => {
         if (decoded) {
