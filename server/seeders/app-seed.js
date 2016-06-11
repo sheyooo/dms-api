@@ -3,6 +3,7 @@
 
   var mongoose = require('mongoose'),
     Role = require('./../models/Role.js').model,
+    Type = require('./../models/Type.js').model,
     User = require('./../models/User.js').model;
 
   mongoose.connect('mongodb://localhost/dms');
@@ -21,10 +22,18 @@
         role: roles[1].title,
         password: 'password'
       }, (err, user) => {
-        if (user) {
-          console.log('Success');
-        }
-        process.exit(0);
+
+        Type.create([
+          {title: 'finance'},
+          {title: 'confidential'}
+        ],
+          (err, types) => {
+            if (types && user) {
+              console.log('Success');
+            }
+            process.exit(0);
+        });
+        
       });
     });
 })();

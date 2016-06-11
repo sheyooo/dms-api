@@ -12,7 +12,7 @@
         if (err) {
           res
             .status(409)
-            .json({status: 'Duplicate role'});
+            .json({status: err.toString()});
         } else {
           res.json(role);
         }

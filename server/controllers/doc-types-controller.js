@@ -1,25 +1,28 @@
 (() => {
   'use strict';
 
-  var Type = require('./../models/Type.js').model;
+  var DocType = require('./../models/Type.js').model;
 
   module.exports = {
-    create: (data, callback) => {
-      var role = new Type(data);
+    create: (req, res) => {
+      var newRole = req.body,
+        type = new DocType(newRole);
 
-      role.save(err => {
+      type.save(err => {
         if (err) {
-          callback(false);
+          res
+            .status(409)
+            .json({status: err.toString()});
         } else {
-          callback(role);
+          res.json(type);
         }
       });
     },
 
-    getAll: callback => {
-      Type.find()
-        .exec(types => {
-          callback(types);
+    getAll: (req, res) => {
+      DocType.find()
+        .exec((err, roles) => {
+          res.json(roles);
         });
     }
   };

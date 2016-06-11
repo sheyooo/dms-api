@@ -1,12 +1,20 @@
-(function () {
+(() => {
   'use strict';
+  
   var mongoose = require('mongoose'),
 
     TypeSchema = mongoose.Schema({
-      title: {type: String, unique: true, required: true}
-    }),
-    
-    Type = mongoose.model('Type', TypeSchema);
+      title: {
+        type: String,
+        unique: true,
+        required: true,
+        lowercase: true,
+        trim: true
+      }
+    });
 
-  module.exports = { model: Type, schema: TypeSchema };
+  module.exports = {
+    model: mongoose.model('Type', TypeSchema), 
+    schema: TypeSchema
+  };
 })();
