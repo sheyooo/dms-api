@@ -35,7 +35,7 @@
       var id = req.params.id;
 
       Document.findById(id, (err, doc) => {
-        if (err) {
+        if (!doc) {
           res
             .status(404)
             .json({status: 'Document not found'});
@@ -100,7 +100,7 @@
       });
     },
 
-    devare: (req, res) => {
+    delete: (req, res) => {
       var id = req.params.id,
         userID = req.decodedJWT.sub;
 
@@ -110,9 +110,9 @@
             .status(400)
             .json({status: 'Something went wrong'});
         } else{
-          if (doc.ownerId === userID) {
+          if (doc.ownerId.toString() === userID) {
             doc.remove();
-            res.json({status: 'Successfuly devared'});
+            res.json({status: 'Successfuly deleted'});
           } else {
             res
               .status(401)

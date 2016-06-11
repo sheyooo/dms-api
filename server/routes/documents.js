@@ -14,7 +14,7 @@
 
     router.put('/documents/:id', jwtMiddleware, DocumentController.update);
 
-    router.delete('/documents/:id', jwtMiddleware, DocumentController.devare);
+    router.delete('/documents/:id', jwtMiddleware, DocumentController.delete);
 
     router.get('/users/:id/documents', UserController.getUserDocuments);
   }; 
