@@ -5,9 +5,9 @@
     api = require('supertest')(server),
     faker = require('faker'),
     assert = require('chai').assert,
-    apiUrl = '/api/v1/roles';
+    apiUrl = '/api/v1/doc-types';
 
-  describe('ROLES API ENDPOINT:', () => {
+  describe('DOC TYPES API ENDPOINT:', () => {
     var jwtToken,
       newUser = {
         username: faker.internet.userName(),
@@ -19,7 +19,7 @@
         password: faker.internet.password(),
         role: 'viewer'
       },
-      newRole = {
+      newType = {
         title: faker.lorem.word()
       };
 
@@ -33,29 +33,29 @@
         });
     });
 
-    it('POST: should create new Role', done => {
+    it('POST: should create new doc type', done => {
       api
         .post(apiUrl)
         .set('X-ACCESS-TOKEN', jwtToken)
-        .send(newRole)
+        .send(newType)
         .end((err, res) => {
           assert.equal(res.status, 200);
           done();
         });
     });
 
-    it('POST: should only accept unique roles', done => {
+    it('POST: should only accept unique doc types', done => {
       api
         .post(apiUrl)
         .set('X-ACCESS-TOKEN', jwtToken)
-        .send({ title: 'admin' })
+        .send({ title: 'finance' })
         .end((err, res) => {
           assert.equal(res.status, 409);
           done();
         });
     });
 
-    it('POST: should not accept roles with lacking title', done => {
+    it('POST: should not accept doc types with lacking title', done => {
       api
         .post(apiUrl)
         .set('X-ACCESS-TOKEN', jwtToken)
@@ -69,7 +69,7 @@
         });
     });
 
-    it('GET: should return all roles', done => {
+    it('GET: should return all doc types', done => {
       api
         .get(apiUrl)
         .end((err, res) => {
