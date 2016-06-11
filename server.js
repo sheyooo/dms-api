@@ -36,7 +36,7 @@
   app.use('/api/v1', router);
 
   var server = app.listen(process.env.PORT || 4000, () => {
-    console.log('SERVER LISTENING ON PORT ' + process.env.PORT || 4000 + '!');
+    console.log('SERVER LISTENING ON PORT ' + server.address().port + '!');
   });
 
   module.exports = {
