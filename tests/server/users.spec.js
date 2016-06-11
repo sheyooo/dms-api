@@ -90,6 +90,26 @@
         });
     });
 
+    it('POST: should reject when no password', done => {
+      var userWithNoPass = {
+        username: faker.lorem.word(),
+        name: {
+          first: faker.name.firstName(),
+          last: faker.name.lastName()
+        },
+        email: faker.internet.email(),
+        role: 'viewer'
+      };
+
+      api
+        .post(apiUrl)
+        .send(userWithNoPass)
+        .end((err, res) => {
+          assert.equal(res.status, 400);
+          done();
+        });
+    });
+
     it('PUT: should be able to edit a user', done => {
       var fName = faker.name.firstName(),
         lName = faker.name.lastName();

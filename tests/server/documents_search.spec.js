@@ -201,18 +201,15 @@
     var description4 = 'GET: should return documents created ' +
       'or published on a particular date';
     it(description4, done => {
-      var documents = [{
+      var doc = {
         title: faker.lorem.sentence(),
         content: 'Wizzy in London'
-      }, {
-        title: faker.lorem.sentence(),
-        content: 'Live your life anyhow'
-      }];
+      };
 
       api
         .post(apiUrl)
         .set('X-ACCESS-TOKEN', jwtToken)
-        .send(documents[0])
+        .send(doc)
         .end((err, res) => {
           assert.equal(res.status, 201);
 

@@ -4,7 +4,6 @@
     api = require('supertest')(server),
     faker = require('faker'),
     assert = require('chai').assert,
-    config = require('./../../server/config.js'),
     apiUrl = '/api/v1/documents';
 
   describe('DOCUMENTS API ENDPOINT:', () => {
