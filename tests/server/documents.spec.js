@@ -184,5 +184,40 @@
 
         });
     });
+
+    it('POST: un-authenticated users cant delete documents', done => {
+      api
+        .delete(apiUrl + '/' + docID)
+        .send(newDocument)
+        .end((err, res) => {
+          assert.equal(res.status, 401);
+
+          api
+            .get(apiUrl + '/' + docID)
+            .end((err, res) => {
+              assert.equal(res.status, 200);
+
+              done();
+            });
+        });
+    });
+
+    it('POST: only authenticated users can delete documents', done => {
+      api
+        .delete(apiUrl + '/' + docID)
+        .set('X-ACCESS-TOKEN', jwtToken)
+        .send(newDocument)
+        .end((err, res) => {
+          assert.equal(res.status, 200);
+
+          api
+            .get(apiUrl + '/' + docID)
+            .end((err, res) => {
+              assert.equal(res.status, 404);
+
+              done();
+            });
+        });
+    });
   });
 })();

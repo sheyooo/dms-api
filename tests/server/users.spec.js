@@ -9,6 +9,7 @@
 
   describe('USERS API ENDPOINT:', () => {
     var defaultUser,
+      pass = faker.internet.password(),
       newUser = {
         username: faker.internet.userName(),
         name: {
@@ -16,7 +17,7 @@
           last: faker.name.lastName()
         },
         email: faker.internet.email(),
-        password: faker.internet.password(),
+        password: pass,
         role: 'viewer'
       };
 
@@ -27,6 +28,26 @@
         .end((err, res) => {
           defaultUser = res.body.user;
           
+          done();
+        });
+    });
+
+    it('POST: should return a token on correct login', done => {
+      api
+        .post(apiUrl + '/login')
+        .send({username: defaultUser.username, password: pass})
+        .end((err, res) => {
+          assert.equal(res.status, 200);
+          done();
+        });
+    });
+
+    it('POST: should return unauthorized for bad password on login', done => {
+      api
+        .post(apiUrl + '/login')
+        .send({username: defaultUser.username, password: pass + 'rubbish'})
+        .end((err, res) => {
+          assert.equal(res.status, 401);
           done();
         });
     });
