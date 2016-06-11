@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "node server.js",
     "test": "./node_modules/.bin/istanbul cover _mocha tests/server",
     "coverage": "codeclimate-test-reporter < coverage/lcov.info",
     "db:seed": "node ./server/seeders/app-seed.js"
@@ -29,7 +30,6 @@
     "supertest": "^1.2.0"
   },
   "devDependencies": {
-    "coveralls": "^2.11.9",
     "istanbul": "^0.4.3",
     "mocha-lcov-reporter": "^1.2.0"
   }
