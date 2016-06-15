@@ -164,7 +164,7 @@
           var viewerDocId = res.body._id;
           assert.equal(res.status, 201);
 
-          // It should return 404
+          // It should return 401
           api
             .get(apiUrl + '/' + viewerDocId)
             .end((err, res) => {
@@ -191,14 +191,9 @@
         .send(newDocument)
         .end((err, res) => {
           assert.equal(res.status, 401);
+          assert.equal(res.body.status, 'Unauthorized');
 
-          api
-            .get(apiUrl + '/' + docID)
-            .end((err, res) => {
-              assert.equal(res.status, 200);
-
-              done();
-            });
+          done();
         });
     });
 
@@ -209,14 +204,9 @@
         .send(newDocument)
         .end((err, res) => {
           assert.equal(res.status, 200);
+          assert.equal(res.body.status, 'Successfuly deleted');
 
-          api
-            .get(apiUrl + '/' + docID)
-            .end((err, res) => {
-              assert.equal(res.status, 404);
-
-              done();
-            });
+          done();
         });
     });
   });

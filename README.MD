@@ -16,23 +16,135 @@ Installation.
 3. Navigate to the master branch.
 4. Run
     ```
-    npm i
+    npm install
 
     ```
     This will install the required dependencies.
 5. Run
+    ```
+    npm run db:seed
+
+    ```
+    This will seed the database
+6. Run
   ```
   npm test
 
   ```
   to run the tests.
-6. Run
+7. Run
   ```
   npm start
 
   ```
   Use [**Postman**](https://www.getpostman.com/) to consume the API.
-7. Well...enjoy.
+8. Well...enjoy.
+
+## Code Example
+
+**Create a new user**
+```
+POST - /api/v1/users
+
+Post data
+{
+  username: 'username',
+  email: 'example@host.com'
+  name: {
+    last: 'lastname',
+    first: 'firstname'
+  }
+  password: 'password',
+  role: 'dummy role' // Role has to be created before assignation. viewer role is available by default
+}
+```
+
+**********
+
+**Login a user**
+```
+POST - /api/v1/users
+
+Post data
+{
+  username: 'username',
+  password: 'password'
+}
+```
+
+**********
+
+**Create a new document**
+
+Documnent is created by an existing and authenticated user.
+
+```
+POST - /api/v1/users
+
+Post data
+{
+  title: 'Documnent title',
+  content: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut  enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
+}
+```
+
+***********
+
+**Create a new role - Superadmin operation**
+
+Role is created by an Authorized and Authenticated user (superadmin).
+
+```
+POST - /api/v1/users
+
+Post data
+{
+  title: 'Trainer'
+}
+```
+
+**********
+
+## API Reference
+
+API endpoints currently supported.
+
+_*Users*_
+
+Request type | Endpoint | Action 
+------------ | -------- | ------
+POST | /api/v1/users | Create a new user
+GET | /api/v1/users | Get all users
+GET | /api/v1/users:id | Get a specific user
+PUT | /api/v1/users/:id | Update user information
+DELETE | /api/v1/users/:id | Remove a user from storage
+
+_*Documents*_
+
+Request type | Endpoint | Action 
+------------ | -------- | ------ 
+POST | /api/v1/documents | Create a new document
+GET | /api/v1/documents | Retrieve all documents 
+GET | /api/v1/documents/:id | Retrieve a specific document
+GET | /api/v1/users/:id/documents | Retrieve all documents created by a user
+GET | /api/v1/documents/documents?role=:role | Retrieve all documents with a specific role
+PUT | /api/v1/documents/:id | Update a specific document
+DELETE | /api/v1/documents/:id | Remove a specific document from storage
+
+
+_*Roles*_
+
+Request type | Endpoint | Action 
+------------ | -------- | ------ 
+POST | /api/v1/roles | Create a new role 
+GET | /api/v1/roles | Retrieve all roles 
+
+_*Types*_
+
+Request type | Endpoint | Action 
+------------ | -------- | ------ 
+POST | /api/v1/doc-types | Create a new document type 
+GET | /api/v1/doc-types | Retrieve all document types 
 
 Testing.
 --------
