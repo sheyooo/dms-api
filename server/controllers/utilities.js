@@ -11,7 +11,6 @@
     },
 
     paginate: (params, model) => {
-
       if (params.after) {
         model = model.where('createdAt').gt(params.after);
       } else if (params.before) {
@@ -35,20 +34,31 @@
       if (params.date) {
         var date = moment(params.date).toISOString(),
           nextDay = moment(params.date).add(1, 'd').toISOString();
-
         model = model.find({createdAt: {$gt: date, $lt: nextDay} });
       }
 
       return model;
     },
 
-    checkDocAccessRight: (user, doc) => {
-      if(user && (doc.role === user.role ||
-        doc.ownerId.toString() === user._id.toString() ||
-        user.role === 'admin')) 
-      {
-        return true;
-      } else if (doc.role === 'viewer') {
+    docAccessCondition: (user, doc) => {
+      // It returns true if the user is of the doc's specified role or 
+      // if the user is th e owner of the document or 
+      // if the document's role is 'viewer' or
+      // if the user is an 'admin'
+      return (
+        (user && 
+          (
+            (doc.role === user.role) ||
+            (doc.ownerId.toString() === user._id.toString()) ||
+            (user.role === 'admin')
+          )
+        ) || 
+        (doc.role === 'viewer')
+      );
+    },
+
+    checkDocAccessRight: function(user, doc) {
+      if (this.docAccessCondition(user, doc)) {
         return true;
       }
 
