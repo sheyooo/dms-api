@@ -11,7 +11,7 @@
     mongoose = require('mongoose'),
     jwtMiddleware = require('./server/middleware/jwt.js').optionalAuth;
 
-  mongoose.connect(process.env.DATABASE || 'mongodb://localhost/dms');
+  mongoose.connect(process.env.DATABASE);
 
   var db = mongoose.connection;
   db.on('error', console.error.bind(console, 'connection error:'));

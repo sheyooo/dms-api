@@ -1,12 +1,14 @@
 (() => {
   'use strict';
 
+  require('dotenv').config({silent: true});
+
   var mongoose = require('mongoose'),
     Role = require('./../models/Role.js').model,
     Type = require('./../models/Type.js').model,
     User = require('./../models/User.js').model;
 
-  mongoose.connect('mongodb://localhost/dms');
+  mongoose.connect(process.env.DATABASE);
 
   Role.create([
     {title: 'viewer'},
