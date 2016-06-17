@@ -1,7 +1,7 @@
 (() => {
   'use strict';
 
-  require('dotenv').load();
+  require('dotenv').config({silent: true});
 
   var express = require('express'),
     app = express(),
